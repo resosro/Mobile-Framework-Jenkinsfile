@@ -14,15 +14,23 @@ pipeline{
 
     }
 
+    environment {
+        PWD = PWD()
+    }
+
     stages{
         stage("Build"){
             steps{
-                git branch: 'main', credentialsId: 'c673d917-5c3d-4d1e-8e15-4815077fc9fb', url: 'https://github.com/resosro/Mobile-Framework-Jenkinsfile'                echo "branch pulled"
+                bat "ls"
+
+                git branch: 'main', credentialsId: 'c673d917-5c3d-4d1e-8e15-4815077fc9fb', url: 'https://github.com/resosro/Mobile-Framework-Jenkinsfile.git'                
+                echo "branch pulled"
                 bat "ls"
 
                 bat "cd .\\scripts ls"
-                echo "${PWD}"
-                bat "${PWD}\\Insights-Desktop-Pipeline\\scripts\\build.ps1"
+                echo "${env.PWD}"
+                sh "pwsh ${env.PWD}\\Insights-Desktop-Pipeline\\scripts\\build.ps1"
+                
             }
         }
         stage("Test"){
