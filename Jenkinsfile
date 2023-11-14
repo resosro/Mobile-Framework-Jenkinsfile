@@ -10,12 +10,10 @@ pipeline{
         choice(name: "portal_os", choices: ["Lnx","Windows"], description: "Select the portal OS")
         choice(name: "portal_version", choices: ["11.2"], description: "Select the portal version")
         choice(name: "security_type", choices: ["BI"], description: "Select the security type")
-
-
     }
 
     environment {
-        PWD = PWD()
+        PWD = pwd()
     }
 
     stages{
@@ -23,14 +21,12 @@ pipeline{
             steps{
                 bat "ls"
 
-                git branch: 'main', credentialsId: 'c673d917-5c3d-4d1e-8e15-4815077fc9fb', url: 'https://github.com/resosro/Mobile-Framework-Jenkinsfile.git'                
+                git branch: 'main', credentialsId: 'c673d917-5c3d-4d1e-8e15-4815077fc9fb', url: 'https://github.com/resosro/Mobile-Framework-Pipeline.git'                
                 echo "branch pulled"
                 bat "ls"
-
-                bat "cd .\\scripts ls"
+                pwsh "${env.PWD}\\build.ps1"
                 echo "${env.PWD}"
-                sh "pwsh ${env.PWD}\\Insights-Desktop-Pipeline\\scripts\\build.ps1"
-                
+
             }
         }
         stage("Test"){
