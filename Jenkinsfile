@@ -30,9 +30,10 @@ pipeline{
                  dir('Module2') {
                     git branch: 'main', credentialsId: 'c673d917-5c3d-4d1e-8e15-4815077fc9fb', url: 'https://github.com/resosro/ArcGIS-Earth-Mobile.git'
                     }
+            pwsh "${env.PWD}//Module1//ps-scripts//build.ps1"
+
             }
             
-            pwsh "${env.PWD}//Module1//ps-scripts//build.ps1"
 
         }
         
