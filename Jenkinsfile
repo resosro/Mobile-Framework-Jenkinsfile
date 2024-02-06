@@ -1,7 +1,7 @@
 pipeline{
     // Does agent {label 'Selenium'} work here? or does it have to be 
     // node {label 'Selenium '}
-    agent {label 'RAppsDesktop11'}
+    agent {label 'QuantumX'}
 
     parameters{
         choice(name: "mobile_app", choices: ['Earth Mobile', "ArcGIS Mobile"], description: 'Select which mobile app to run')
@@ -17,25 +17,24 @@ pipeline{
     }
 
     stages{
-        stage("Build"){
-            steps{
-                bat "ls"
-
+        parallel {
+        stage("Checkout 1"){
+    steps{
+        dir('Module1') {
                 git branch: 'main', credentialsId: 'c673d917-5c3d-4d1e-8e15-4815077fc9fb', url: 'https://github.com/resosro/Mobile-Framework-Pipeline.git'                
-                echo "branch pulled"
-                bat "ls"
-                pwsh "${env.PWD}\\build.ps1"
-                echo "${env.PWD}"
-
             }
         }
-        stage("Test"){
+}
+    
+        stage("Checkout 2"){
             steps{
-                git branch: 'main', credentialsId: 'd28f4340-67ba-48ac-a47d-810f37cf684c', url: 'https://devtopia.esri.com/Release/Insights-DesktopAutomation'
-                bat "${PWD}\\Powershell-Scripts\\test.ps1"
+                 dir('Module2') {
+                    git branch: 'main', credentialsId: 'c673d917-5c3d-4d1e-8e15-4815077fc9fb', url: 'https://github.com/resosro/ArcGIS-Earth-Mobile.git'}
             }
 
         }
+        }
+        
 
         stage("Clean"){
             steps{
@@ -45,3 +44,4 @@ pipeline{
         }
     }
 }
+    
