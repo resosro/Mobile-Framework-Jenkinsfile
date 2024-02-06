@@ -34,7 +34,7 @@ pipeline{
             pwsh "${env.PWD}//Module1//ps-scripts//build.ps1"
 
         }
-        }
+        
         
 
         stage("Clean"){
@@ -44,5 +44,6 @@ pipeline{
             
         }
     }
+}
 }
     
