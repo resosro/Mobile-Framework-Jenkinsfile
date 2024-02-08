@@ -1,6 +1,4 @@
 pipeline{
-    // Does agent {label 'Selenium'} work here? or does it have to be 
-    // node {label 'Selenium '}
     agent {label 'QuantumX'}
 
     parameters{
@@ -44,6 +42,18 @@ pipeline{
                 bat "${PWD}\\Powershell-Scripts\\clean.ps1"
         }
     }
+
 }
+    post {
+        // Clean after build
+        always {
+            cleanWs(cleanWhenNotBuilt: false,
+                    deleteDirs: true,
+                    disableDeferredWipeout: true,
+                    notFailBuild: true,
+                    patterns: [[pattern: '.gitignore', type: 'INCLUDE'],
+                               [pattern: '.propsfile', type: 'EXCLUDE']])
+        }
+    }
 }
     
